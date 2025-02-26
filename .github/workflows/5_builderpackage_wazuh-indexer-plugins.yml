@@ -4,8 +4,9 @@ name: Build packages
 # This workflow runs when any of the following occur:
 # - Run manually
 # - Invoked from another workflow
+# - On push 
 on:
-    push: {}
+    push:
     workflow_dispatch:
         inputs:
             revision:
@@ -52,25 +53,24 @@ jobs:
     build:
         runs-on: ubuntu-22.04
         steps:
-            - name: Set defaults
-              id: defaults
-              run: |
-                echo "revision=${{ github.event.inputs.revision || '0' }}" >> $GITHUB_ENV
-                echo "plugin=${{ github.event.inputs.plugin || 'setup' }}" >> $GITHUB_ENV
-                echo "id=${{ github.event.inputs.id || '' }}" >> $GITHUB_ENV
-          
             - uses: actions/checkout@v4
             - uses: actions/setup-java@v4
               with:
-                 distribution: temurin
-                 java-version: 21
-        
+                  distribution: temurin
+                  java-version: 21
+
             - name: Setup Gradle # Used for caching
               uses: gradle/actions/setup-gradle@v4
 
             - name: Get version
               id: version
-              run: echo "version=$(<VERSION)" >> "$GITHUB_OUTPUT"
+              run: |
+                    VERSION=$(<VERSION)
+                    if [ -z "$VERSION" ]; then
+                      echo "version=0" >> "$GITHUB_OUTPUT"
+                    else
+                      echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+                    fi
 
             - name: Build with Gradle
               working-directory: ./plugins/${{ inputs.plugin }}

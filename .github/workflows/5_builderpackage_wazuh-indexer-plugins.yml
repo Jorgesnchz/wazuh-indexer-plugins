@@ -62,7 +62,7 @@ jobs:
             - name: Setup Gradle # Used for caching
               uses: gradle/actions/setup-gradle@v4
 
-           - name: Get version
+            - name: Get version
               id: version
               run: echo "version=$(jq -r .version<VERSION.json)" >> "$GITHUB_OUTPUT"
 

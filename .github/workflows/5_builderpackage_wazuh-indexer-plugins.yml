@@ -5,7 +5,7 @@ name: Build packages
 # - Run manually
 # - Invoked from another workflow
 on:
-    push:
+    push: {}
     workflow_dispatch:
         inputs:
             revision:

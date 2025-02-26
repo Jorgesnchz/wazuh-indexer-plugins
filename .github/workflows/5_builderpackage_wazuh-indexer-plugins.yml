@@ -67,8 +67,8 @@ jobs:
               run: echo "version=$(jq -r .version<VERSION.json)" >> "$GITHUB_OUTPUT"
 
             - name: Build with Gradle
-              working-directory: ./plugins/${{ inputs.plugin }}
-              run: ./gradlew build -Dversion=${{ steps.version.outputs.version }} -Drevision=${{ inputs.revision }}
+              working-directory: ./plugins/${{ github.event_name == 'push' && 'setup' || inputs.plugin }}
+              run: ./gradlew build -Dversion=${{ steps.version.outputs.version }} -Drevision=${{ github.event_name == 'push' && '0' || inputs.revision }}
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4

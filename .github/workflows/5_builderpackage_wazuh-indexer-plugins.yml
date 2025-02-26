@@ -62,15 +62,9 @@ jobs:
             - name: Setup Gradle # Used for caching
               uses: gradle/actions/setup-gradle@v4
 
-            - name: Get version
+           - name: Get version
               id: version
-              run: |
-                    VERSION=$(<VERSION)
-                    if [ -z "$VERSION" ]; then
-                      echo "version=0" >> "$GITHUB_OUTPUT"
-                    else
-                      echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-                    fi
+              run: echo "version=$(jq -r .version<VERSION.json)" >> "$GITHUB_OUTPUT"
 
             - name: Build with Gradle
               working-directory: ./plugins/${{ inputs.plugin }}

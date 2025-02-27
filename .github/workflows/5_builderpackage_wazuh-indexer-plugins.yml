@@ -6,7 +6,7 @@ name: Build packages
 # - Invoked from another workflow
 # - On push 
 on:
-    push:
+   
     workflow_dispatch:
         inputs:
             revision:
@@ -35,7 +35,7 @@ on:
                 description: "ID used to identify the workflow uniquely."
                 type: string
                 required: false
-
+    push:
 # ==========================
 # Bibliography
 # ==========================

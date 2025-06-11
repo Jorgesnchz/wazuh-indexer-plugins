@@ -6,7 +6,6 @@ on:
       - main
 jobs:
   run-ecs-generator:
-    if: github.repository == 'wazuh/wazuh-indexer-plugins'
     runs-on: ubuntu-24.04
     permissions:
       {}
